@@ -1,4 +1,8 @@
 <template>
+  <Head>
+    <title></title>
+  </Head>
+
   <Main :aside="true">
     <section class="w-[28rem] mx-auto pt-16 pb-2">
       <!-- Post -->
@@ -81,6 +85,7 @@
 
 <script>
 import Main from '../Layouts/Main.vue';
+import { Head } from '@inertiajs/vue3';
 import ProfilePicture from '../Components/ProfilePicture.vue';
 import Spinner from '../Components/Spinner.vue';
 import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue';
@@ -102,6 +107,7 @@ export default {
     ProfilePicture,
     PostModal,
     Spinner,
+    Head,
   },
   setup() {
     return {

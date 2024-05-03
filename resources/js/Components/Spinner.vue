@@ -1,5 +1,9 @@
 <template>
-  <span class="loader" :style="`height: ${size}px; width: ${size}px;`"></span>
+  <span
+    class="loader"
+    :class="`border-[3px] border-blue-400`"
+    :style="`height: ${size}px; width: ${size}px;`"
+  ></span>
 </template>
 
 <script>
@@ -15,7 +19,6 @@ export default {
 
 <style>
 .loader {
-  border: 4px solid rgb(96 165 250);
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;

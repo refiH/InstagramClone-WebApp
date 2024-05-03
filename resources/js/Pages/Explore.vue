@@ -1,4 +1,8 @@
 <template>
+  <Head>
+    <title>Explore &#x2022;</title>
+  </Head>
+
   <Main>
     <section>
       <div v-if="loading" class="flex justify-center items-center h-screen">
@@ -52,6 +56,7 @@
 <script>
 import PostModal from '../Components/PostModal.vue';
 import Main from '../Layouts/Main.vue';
+import { Head } from '@inertiajs/inertia-vue3';
 import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
 import { ref } from 'vue';
 import axios from 'axios';
@@ -71,7 +76,7 @@ export default {
   props: {
     postsCount: Number,
   },
-  components: { Main, CommentIcon, PostModal, Spinner },
+  components: { Main, Head, CommentIcon, PostModal, Spinner },
   beforeMount() {
     this.fetchRandomPosts();
   },
