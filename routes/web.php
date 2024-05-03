@@ -1,6 +1,11 @@
 <?php
 
+use App\Http\Controllers\C_Auth;
 use App\Models\M_Post;
+use App\Models\M_User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,30 +20,40 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-  // $data['posts'] = M_Post::with('User')
-  //   ->withCount('Likes')
-  //   ->withCount('Comments')
-  //   ->orderBy('created_at', 'desc')
-  //   ->get();
+// AUTH
+Route::get('/login', [C_Auth::class, 'loginPage'])->name('auth.login-page');
+Route::get('/register', [C_Auth::class, 'registerPage'])->name('auth.register-page');
 
-  $data['postsCount'] = M_Post::count();
+Route::post('/login', [C_Auth::class, 'login'])->name('auth.login');
+Route::post('/register', [C_Auth::class, 'register'])->name('auth.register');
 
-  return Inertia::render('Home', $data);
-});
+Route::get('/logout', [C_Auth::class, 'logout'])->name('auth.logout');
 
-Route::get('/explore', function () {
-  // $data['posts'] = M_Post::with('User')
-  // ->withCount('Likes')
-  // ->withCount('Comments')
-  // ->inRandomOrder()
-  // ->get();
+// MAIN
+Route::middleware('auth')->group(function () {
+  // Home
+  Route::get('/', function () {
+    $data['postsCount'] = M_Post::count();
 
-  $data['postsCount'] = M_Post::count();
+    return Inertia::render('Home', $data);
+  })->name('home');
 
-  return Inertia::render('Explore', $data);
-});
+  // Explore
+  Route::get('/explore', function () {
+    $data['postsCount'] = M_Post::count();
 
-Route::get('/add', function () {
-  return Inertia::render('Add');
+    return Inertia::render('Explore', $data);
+  })->name('explore');
+
+  // Add
+  Route::get('/add', function () {
+    return Inertia::render('Add');
+  })->name('add');
+
+  // Get Auth User
+  Route::get('/get-auth-user', function () {
+    $user = Auth::user();
+
+    return response()->json($user);
+  })->name('get-auth-user');
 });

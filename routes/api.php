@@ -2,7 +2,9 @@
 
 use App\Models\M_Post;
 use App\Models\M_PostComment;
+use App\Models\M_User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/get-posts', function (Request $request) {
-  $posts = M_Post::with('User')
+  $posts = M_Post::with('User:id,username,image')
     ->withCount('Likes')
     ->withCount('Comments')
     ->orderBy('created_at', 'desc')
@@ -31,7 +33,7 @@ Route::get('/get-posts', function (Request $request) {
 })->name('get-posts');
 
 Route::get('/get-random-posts', function (Request $request) {
-  $posts = M_Post::with('User')
+  $posts = M_Post::with('User:id,username,image')
     ->withCount('Likes')
     ->withCount('Comments')
     ->inRandomOrder()
@@ -40,7 +42,6 @@ Route::get('/get-random-posts', function (Request $request) {
   return response()->json($posts);
 })->name('get-random-posts');
 
-// Modal
 Route::get('/get-post/{post}', function (M_Post $post) {
   $post = M_Post::where('id', $post->id)
     ->with('User:id,username,image')

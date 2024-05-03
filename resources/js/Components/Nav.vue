@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex-[1_1_0%] shadow px-2 py-8 max-w-60 sticky top-0">
+  <nav class="flex-[1_1_0%] shadow px-2 pt-8 max-w-60 sticky top-0 flex flex-col">
     <img
       src="../../../public/icon-192.png"
       alt="Logo"
@@ -38,16 +38,29 @@
         Add
       </Link>
     </div>
+
+    <form @submit.prevent="router.get('/logout')" class="mb-4 mt-auto mx-auto">
+      <button type="submit" class="flex gap-2 text-red-400">
+        <LogoutIcon />
+        Logout
+      </button>
+    </form>
   </nav>
 </template>
 
 <script>
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link, router } from '@inertiajs/vue3';
 import HomeIcon from 'vue-material-design-icons/Home.vue';
 import CompassIcon from 'vue-material-design-icons/Compass.vue';
 import PlusIcon from 'vue-material-design-icons/PlusCircle.vue';
+import LogoutIcon from 'vue-material-design-icons/Logout.vue';
 
 export default {
-  components: { Link, HomeIcon, CompassIcon, PlusIcon },
+  components: { Link, HomeIcon, CompassIcon, PlusIcon, LogoutIcon },
+  setup() {
+    return {
+      router,
+    };
+  },
 };
 </script>

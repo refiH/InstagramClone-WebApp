@@ -25,6 +25,7 @@ class M_User extends Authenticatable
     'password',
     'image',
     'bio',
+    'is_admin',
   ];
 
   public static function booted()

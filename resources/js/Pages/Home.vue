@@ -1,86 +1,88 @@
 <template>
-  <Head>
-    <title></title>
-  </Head>
+  <div>
+    <Head>
+      <title></title>
+    </Head>
 
-  <Main :aside="true">
-    <section class="w-[28rem] mx-auto pt-16 pb-2">
-      <!-- Post -->
-      <div v-if="loading" class="flex justify-center">
-        <Spinner />
-      </div>
-
-      <div v-else>
-        <div v-for="(post, i) in postsData" :key="i">
-          <!-- Post-Account -->
-          <div class="flex items-center mb-3">
-            <ProfilePicture :src="post.user.image" :alt="post.user.username" />
-
-            <p class="text-sm font-bold cursor-pointer ml-3 truncate max-w-80 hover:underline">
-              {{ post.user.username }}
-            </p>
-            <div class="mx-2 text-xs">&#x2022;</div>
-            <p class="text-sm font-semibold text-gray-400">
-              {{ formatTime(post.created_at) }}
-            </p>
-
-            <DotsIcon class="ml-auto cursor-pointer" />
-          </div>
-
-          <!-- Post-Image -->
-          <div class="bg-black flex items-center justify-center">
-            <img
-              class="object-contain min-h-[15rem] max-h-[35rem]"
-              :src="post.image"
-              :alt="`Image by ${post.user.username}`"
-            />
-          </div>
-
-          <!-- Post-Actions -->
-          <div class="flex items-center mt-3">
-            <HeartOutlineIcon :size="24" />
-            <p class="text-sm font-medium ml-2 mr-4">{{ post.likes_count }}</p>
-            <CommentIcon :size="24" class="scale-x-[-1]" />
-            <p class="text-sm font-medium ml-2">
-              {{ post.comments_count }}
-            </p>
-          </div>
-
-          <!-- Post-Caption -->
-          <p class="text-sm line-clamp-3 mt-3">
-            <span class="font-bold cursor-pointer hover:underline transition">
-              {{ post.user.username }}
-            </span>
-            {{ post.content }}
-          </p>
-
-          <button
-            class="font-semibold text-sm text-gray-400 underline"
-            @click="toggleModal(post.id)"
-          >
-            see more
-          </button>
-
-          <!-- Post-Divider -->
-          <div class="w-100 border border-gray-200 my-6"></div>
-        </div>
-
-        <div v-if="moreLoading" class="flex justify-center pb-2">
+    <Main :aside="true">
+      <section class="w-[28rem] mx-auto pt-16 pb-2">
+        <!-- Post -->
+        <div v-if="loading" class="flex justify-center">
           <Spinner />
         </div>
 
-        <button
-          v-if="!moreLoading && postsCount != postsData.length"
-          @click="fetchMorePosts"
-          class="font-semibold text-blue-400 mb-4 block mx-auto"
-        >
-          Load more
-        </button>
-      </div>
-    </section>
+        <div v-else>
+          <div v-for="(post, i) in postsData" :key="i">
+            <!-- Post-Account -->
+            <div class="flex items-center mb-3">
+              <ProfilePicture :src="post.user.image" :alt="post.user.username" />
 
-    <PostModal :modal-active="modalActive" @toggle-modal="toggleModal" :post-id="selectedPost" />
-  </Main>
+              <p class="text-sm font-bold cursor-pointer ml-3 truncate max-w-80 hover:underline">
+                {{ post.user.username }}
+              </p>
+              <div class="mx-2 text-xs">&#x2022;</div>
+              <p class="text-sm font-semibold text-gray-400">
+                {{ formatTime(post.created_at) }}
+              </p>
+
+              <DotsIcon class="ml-auto cursor-pointer" />
+            </div>
+
+            <!-- Post-Image -->
+            <div class="bg-black flex items-center justify-center">
+              <img
+                class="object-contain min-h-[15rem] max-h-[35rem]"
+                :src="post.image"
+                :alt="`Image by ${post.user.username}`"
+              />
+            </div>
+
+            <!-- Post-Actions -->
+            <div class="flex items-center mt-3">
+              <HeartOutlineIcon :size="24" />
+              <p class="text-sm font-medium ml-2 mr-4">{{ post.likes_count }}</p>
+              <CommentIcon :size="24" class="scale-x-[-1]" />
+              <p class="text-sm font-medium ml-2">
+                {{ post.comments_count }}
+              </p>
+            </div>
+
+            <!-- Post-Caption -->
+            <p class="text-sm line-clamp-3 mt-3">
+              <span class="font-bold cursor-pointer hover:underline transition">
+                {{ post.user.username }}
+              </span>
+              {{ post.content }}
+            </p>
+
+            <button
+              class="font-semibold text-sm text-gray-400 underline"
+              @click="toggleModal(post.id)"
+            >
+              see more
+            </button>
+
+            <!-- Post-Divider -->
+            <div class="w-full border border-gray-200 my-6"></div>
+          </div>
+
+          <div v-if="moreLoading" class="flex justify-center pb-2">
+            <Spinner />
+          </div>
+
+          <button
+            v-if="!moreLoading && postsCount != postsData.length"
+            @click="fetchMorePosts"
+            class="font-semibold text-blue-400 mb-4 block mx-auto"
+          >
+            Load more
+          </button>
+        </div>
+      </section>
+
+      <PostModal :modal-active="modalActive" @toggle-modal="toggleModal" :post-id="selectedPost" />
+    </Main>
+  </div>
 </template>
 
 <script>
@@ -119,12 +121,10 @@ export default {
       dataCount: 5,
     };
   },
-  beforeMount() {
+  mounted() {
     this.fetchPosts();
+    //   this.handleScroll();
   },
-  // mounted() {
-  //   this.handleScroll();
-  // },
   methods: {
     async fetchPosts() {
       try {

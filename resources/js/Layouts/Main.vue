@@ -3,7 +3,7 @@
     <Nav />
 
     <!-- <transition name="fade" mode="out-in" appear> -->
-    <main :key="$page.url" class="flex-[2_2_0%]">
+    <main class="flex-[2_2_0%]">
       <slot />
     </main>
     <!-- </transition> -->

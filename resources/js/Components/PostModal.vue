@@ -98,7 +98,7 @@
               </p>
             </div>
 
-            <div class="w-100 flex items-center gap-2 pl-2 pr-4 text-sm">
+            <div class="w-full flex items-center gap-2 pl-2 pr-4 text-sm">
               <textarea
                 placeholder="Add a comment..."
                 rows="3"

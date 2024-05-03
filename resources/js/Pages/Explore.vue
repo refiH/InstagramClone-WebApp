@@ -1,62 +1,64 @@
 <template>
-  <Head>
-    <title>Explore &#x2022;</title>
-  </Head>
+  <div>
+    <Head>
+      <title>Explore &#x2022;</title>
+    </Head>
 
-  <Main>
-    <section>
-      <div v-if="loading" class="flex justify-center items-center h-screen">
-        <Spinner />
-      </div>
-
-      <div v-else class="w-[60rem] mx-auto grid grid-cols-3 gap-1 pt-10 pb-2">
-        <div
-          v-for="(post, i) in postsData"
-          @click="toggleModal(post.id)"
-          :key="i"
-          class="group relative cursor-pointer"
-          :class="{ 'row-span-2': isPatternMatch(i + 1) }"
-        >
-          <img
-            class="object-cover"
-            :class="isPatternMatch(i + 1) ? 'h-[30rem] w-80' : 'aspect-[4/3]'"
-            :alt="`Image by ${post.user.username}`"
-            :src="post.image"
-          />
-
-          <!-- Backdrop -->
-          <div
-            class="bg-[rgba(0,0,0,0.5)] text-white opacity-0 group-hover:opacity-100 absolute inset-0 transition flex items-center justify-center"
-          >
-            <CommentIcon :size="24" class="scale-x-[-1]" />
-            <p class="text-sm font-semibold ml-2">
-              {{ post.comments_count }}
-            </p>
-          </div>
-        </div>
-
-        <div v-if="moreLoading" class="flex justify-center my-6 col-span-full">
+    <Main>
+      <section>
+        <div v-if="loading" class="flex justify-center items-center h-screen">
           <Spinner />
         </div>
 
-        <button
-          v-if="!moreLoading && postsCount != postsData.length"
-          @click="fetchMoreRandomPosts"
-          class="font-semibold text-blue-400 my-4 col-span-full"
-        >
-          Load more
-        </button>
-      </div>
-    </section>
+        <div v-else class="w-[60rem] mx-auto grid grid-cols-3 gap-1 pt-10 pb-2">
+          <div
+            v-for="(post, i) in postsData"
+            @click="toggleModal(post.id)"
+            :key="i"
+            class="group relative cursor-pointer"
+            :class="{ 'row-span-2': isPatternMatch(i + 1) }"
+          >
+            <img
+              class="object-cover"
+              :class="isPatternMatch(i + 1) ? 'h-[30rem] w-80' : 'aspect-[4/3]'"
+              :alt="`Image by ${post.user.username}`"
+              :src="post.image"
+            />
 
-    <PostModal :modal-active="modalActive" @toggle-modal="toggleModal" :post-id="selectedPost" />
-  </Main>
+            <!-- Backdrop -->
+            <div
+              class="bg-[rgba(0,0,0,0.5)] text-white opacity-0 group-hover:opacity-100 absolute inset-0 transition flex items-center justify-center"
+            >
+              <CommentIcon :size="24" class="scale-x-[-1]" />
+              <p class="text-sm font-semibold ml-2">
+                {{ post.comments_count }}
+              </p>
+            </div>
+          </div>
+
+          <div v-if="moreLoading" class="flex justify-center my-6 col-span-full">
+            <Spinner />
+          </div>
+
+          <button
+            v-if="!moreLoading && postsCount != postsData.length"
+            @click="fetchMoreRandomPosts"
+            class="font-semibold text-blue-400 my-4 col-span-full"
+          >
+            Load more
+          </button>
+        </div>
+      </section>
+
+      <PostModal :modal-active="modalActive" @toggle-modal="toggleModal" :post-id="selectedPost" />
+    </Main>
+  </div>
 </template>
 
 <script>
 import PostModal from '../Components/PostModal.vue';
 import Main from '../Layouts/Main.vue';
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head } from '@inertiajs/vue3';
 import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
 import { ref } from 'vue';
 import axios from 'axios';
@@ -77,7 +79,7 @@ export default {
     postsCount: Number,
   },
   components: { Main, Head, CommentIcon, PostModal, Spinner },
-  beforeMount() {
+  mounted() {
     this.fetchRandomPosts();
   },
   methods: {
