@@ -4,8 +4,8 @@
       <div v-if="!loading && postData" class="flex min-w-[75vw] max-w-[75vw] h-[90vh]">
         <div class="bg-black flex items-center justify-center flex-[4_4_0%]">
           <img
-            class="object-contain h-full"
-            :src="postData.image"
+            class="object-contain h-full text-white"
+            :src="$page.props.storagePath + 'posts/images/' + postData.image"
             :alt="`Post by ${postData.user.username}`"
           />
         </div>
@@ -13,16 +13,16 @@
         <div class="flex-[5_5_0%] flex flex-col">
           <!-- Account -->
           <div class="px-4 py-3 flex items-center border-b">
-            <ProfilePicture :src="postData.user.image" :alt="postData.user.username" class="mr-4" />
+            <ProfilePicture :src="postData.user.image" class="mr-4" />
 
             <span class="text-sm font-semibold cursor-pointer w-fit hover:underline transition">
               {{ postData.user.username }}
             </span>
 
-            <div class="mx-2 text-xs">&#x2022;</div>
+            <!-- <div class="mx-2 text-xs">&#x2022;</div>
             <p class="text-sm font-semibold text-gray-400">
               {{ formatTime(postData.created_at) }}
-            </p>
+            </p> -->
           </div>
 
           <!-- Caption & Comments -->
@@ -32,9 +32,7 @@
               <div class="w-8 h-8 flex-[0_0_auto]"></div>
 
               <div>
-                <p class="text-sm mb-1">
-                  {{ postData.content }}
-                </p>
+                <p v-html="postData.content" class="text-sm mb-1"></p>
 
                 <span class="text-xs text-gray-400">
                   {{ formatTime(postData.created_at) }}
@@ -54,24 +52,31 @@
                 :key="i"
                 class="text-xs px-4 py-3 flex items-center gap-4"
               >
-                <ProfilePicture :src="comment.user.image" :alt="comment.user.username" />
-                <p>
-                  <span class="font-semibold cursor-pointer w-fit hover:underline transition">
+                <ProfilePicture :src="comment.user.image" />
+                <div>
+                  <span class="font-semibold cursor-pointer w-fit hover:underline transition mr-1">
                     {{ comment.user.username }}
                   </span>
-                  {{ comment.content }}
+                  <span v-html="comment.content"></span>
                   <br />
                   <span class="text-xs text-gray-400">
                     {{ formatTime(comment.created_at) }}
                   </span>
-                </p>
+                </div>
+              </div>
+
+              <div
+                v-if="commentsData.length == 0 && !commentsLoading"
+                class="flex justify-center text-sm pt-4"
+              >
+                No comment found.
               </div>
 
               <button
                 v-if="
                   !commentsLoading &&
                   !commentsMoreLoading &&
-                  postData.comments_count != commentsData.length
+                  postData.comments_count > commentsData.length
                 "
                 @click="fetchMoreComments(postId)"
                 class="font-semibold text-sm text-blue-400 mb-4"
@@ -98,16 +103,22 @@
               </p>
             </div>
 
-            <div class="w-full flex items-center gap-2 pl-2 pr-4 text-sm">
+            <form
+              @submit.prevent="submitCommentForm"
+              class="w-full flex items-center gap-2 pl-2 pr-4 text-sm"
+            >
               <textarea
                 placeholder="Add a comment..."
                 rows="3"
                 cols="0"
                 wrap="soft"
                 class="flex-1 px-2 py-4 outline-none resize-none"
+                v-model="form.content"
               ></textarea>
-              <button class="font-semibold text-blue-400">Post</button>
-            </div>
+              <button type="submit" :disabled="form.processing" class="font-semibold text-blue-400">
+                Post
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -130,6 +141,7 @@ import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue';
 import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
 import axios from 'axios';
 import { ref } from 'vue';
+import { useForm } from '@inertiajs/vue3';
 
 export default {
   emits: ['toggle-modal'],
@@ -151,6 +163,10 @@ export default {
       loading: ref(false),
       commentsLoading: ref(false),
       commentsMoreLoading: ref(false),
+      form: useForm({
+        postId: null,
+        content: '',
+      }),
     };
   },
   watch: {
@@ -171,6 +187,7 @@ export default {
         this.loading = true;
         let response = await axios.get(route('get-post', { post: post }));
         this.postData = response.data;
+        this.form.postId = post;
       } catch (error) {
         console.error('Error fetching post: ', error);
       } finally {
@@ -203,6 +220,19 @@ export default {
     },
     toggleModal() {
       this.$emit('toggle-modal');
+    },
+    convertNewLine() {
+      this.form.content = this.form.content.replace(/\n/g, '<br>');
+    },
+    submitCommentForm() {
+      this.convertNewLine();
+      this.form.post('/comment', {
+        onSuccess: () => {
+          this.fetchComments(this.postId);
+          this.postData.comments_count += 1;
+        },
+      });
+      this.form.content = '';
     },
     formatTime(date) {
       const now = new Date();

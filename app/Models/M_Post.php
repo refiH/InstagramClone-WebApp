@@ -21,10 +21,9 @@ class M_Post extends Model
   public $incrementing = false;
 
   protected $fillable = [
-    'username',
-    'email',
-    'password',
-    'bio',
+    'image',
+    'content',
+    'user_id',
   ];
 
   public static function booted()

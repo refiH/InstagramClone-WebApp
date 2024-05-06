@@ -11,11 +11,15 @@
           <Spinner />
         </div>
 
+        <div v-if="postsData.length == 0 && !loading" class="flex justify-center">
+          No post found.
+        </div>
+
         <div v-else>
           <div v-for="(post, i) in postsData" :key="i">
             <!-- Post-Account -->
             <div class="flex items-center mb-3">
-              <ProfilePicture :src="post.user.image" :alt="post.user.username" />
+              <ProfilePicture :src="post.user.image" />
 
               <p class="text-sm font-bold cursor-pointer ml-3 truncate max-w-80 hover:underline">
                 {{ post.user.username }}
@@ -31,9 +35,9 @@
             <!-- Post-Image -->
             <div class="bg-black flex items-center justify-center">
               <img
-                class="object-contain min-h-[15rem] max-h-[35rem]"
-                :src="post.image"
-                :alt="`Image by ${post.user.username}`"
+                class="object-contain min-h-[15rem] max-h-[35rem] text-white"
+                :src="$page.props.storagePath + 'posts/images/' + post.image"
+                :alt="`Post by by ${post.user.username}`"
               />
             </div>
 
@@ -49,10 +53,10 @@
 
             <!-- Post-Caption -->
             <p class="text-sm line-clamp-3 mt-3">
-              <span class="font-bold cursor-pointer hover:underline transition">
+              <span class="font-bold cursor-pointer hover:underline transition mr-1">
                 {{ post.user.username }}
               </span>
-              {{ post.content }}
+              <span v-html="post.content"></span>
             </p>
 
             <button
@@ -71,7 +75,7 @@
           </div>
 
           <button
-            v-if="!moreLoading && postsCount != postsData.length"
+            v-if="!moreLoading && !loading && postsCount > postsData.length"
             @click="fetchMorePosts"
             class="font-semibold text-blue-400 mb-4 block mx-auto"
           >

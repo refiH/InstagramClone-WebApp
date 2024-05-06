@@ -30,9 +30,7 @@
               class="outline-none border border-gray-300 rounded-sm px-4 py-2 w-full"
               :class="form.errors.username ? 'border-red-400' : ''"
             />
-            <p class="text-xs text-red-400 mt-1" v-if="form.errors.username">
-              {{ form.errors.username }}
-            </p>
+            <InputError :error="form.errors.username" />
           </div>
 
           <div class="mb-4">
@@ -44,9 +42,7 @@
               class="outline-none border border-gray-300 rounded-sm px-4 py-2 w-full"
               :class="form.errors.email ? 'border-red-400' : ''"
             />
-            <p class="text-xs text-red-400 mt-1" v-if="form.errors.email">
-              {{ form.errors.email }}
-            </p>
+            <InputError :error="form.errors.email" />
           </div>
 
           <div class="mb-4">
@@ -58,9 +54,7 @@
               class="outline-none border border-gray-300 rounded-sm px-4 py-2 w-full"
               :class="form.errors.password ? 'border-red-400' : ''"
             />
-            <p class="text-xs text-red-400 mt-1" v-if="form.errors.password">
-              {{ form.errors.password }}
-            </p>
+            <InputError :error="form.errors.password" />
           </div>
 
           <div class="mb-6">
@@ -72,13 +66,12 @@
               class="outline-none border border-gray-300 rounded-sm px-4 py-2 w-full"
               :class="form.errors.password_confirmation ? 'border-red-400' : ''"
             />
-            <p class="text-xs text-red-400 mt-1" v-if="form.errors.password_confirmation">
-              {{ form.errors.password_confirmation }}
-            </p>
+            <InputError :error="form.errors.password_confirmation" />
           </div>
 
           <button
             type="submit"
+            :disabled="form.processing"
             class="bg-blue-400 text-white font-semibold py-2 rounded transition hover:bg-blue-500"
           >
             Register
@@ -100,6 +93,7 @@
 
 <script>
 import Blank from '../Layouts/Blank.vue';
+import InputError from '../Components/InputError.vue';
 import { Head, useForm, Link } from '@inertiajs/vue3';
 
 export default {
@@ -110,6 +104,7 @@ export default {
     Blank,
     Head,
     Link,
+    InputError,
   },
   data() {
     return {

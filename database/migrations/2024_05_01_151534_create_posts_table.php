@@ -14,7 +14,7 @@ return new class extends Migration
     Schema::create('posts', function (Blueprint $table) {
       $table->uuid('id')->primary();
       $table->string('image');
-      $table->longText('content');
+      $table->longText('content')->nullable();
       $table->timestamps();
 
       // RELATIONS

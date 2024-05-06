@@ -17,39 +17,39 @@ class S_Post extends Seeder
   public function run(): void
   {
     $faker = Factory::create();
-    foreach (range(1, 20) as $value) {
-      $user = M_User::inRandomOrder()->first();
+    // foreach (range(1, 20) as $value) {
+    //   $user = M_User::inRandomOrder()->first();
 
-      $post = M_Post::create([
-        'user_id' => $user->id,
-        'image' => "https://source.unsplash.com/random/?city,night&{$value}",
-        'content' => $faker->paragraph(10),
-      ]);
+    //   $post = M_Post::create([
+    //     'user_id' => $user->id,
+    //     'image' => "https://source.unsplash.com/random/?city,night&{$value}",
+    //     'content' => $faker->paragraph(10),
+    //   ]);
 
-      // LIKES
-      $likesCount = $faker->numberBetween(1, 5);
-      for ($i = 0; $i < $likesCount; $i++) {
-        $liker = M_User::inRandomOrder()->first();
+    //   // LIKES
+    //   $likesCount = $faker->numberBetween(1, 5);
+    //   for ($i = 0; $i < $likesCount; $i++) {
+    //     $liker = M_User::inRandomOrder()->first();
 
-        $like = new M_PostLike([
-          'post_id' => $post->id,
-          'user_id' => $liker->id,
-        ]);
-        $like->save();
-      }
+    //     $like = new M_PostLike([
+    //       'post_id' => $post->id,
+    //       'user_id' => $liker->id,
+    //     ]);
+    //     $like->save();
+    //   }
 
-      // COMMENTS
-      $commentsCount = $faker->numberBetween(1, 20);
-      for ($i = 0; $i < $commentsCount; $i++) {
-        $commenter = M_User::inRandomOrder()->first();
+    //   // COMMENTS
+    //   $commentsCount = $faker->numberBetween(1, 20);
+    //   for ($i = 0; $i < $commentsCount; $i++) {
+    //     $commenter = M_User::inRandomOrder()->first();
 
-        $comment = new M_PostComment([
-          'post_id' => $post->id,
-          'user_id' => $commenter->id,
-          'content' => $faker->paragraph(2)
-        ]);
-        $comment->save();
-      }
-    }
+    //     $comment = new M_PostComment([
+    //       'post_id' => $post->id,
+    //       'user_id' => $commenter->id,
+    //       'content' => $faker->paragraph(2)
+    //     ]);
+    //     $comment->save();
+    //   }
+    // }
   }
 }

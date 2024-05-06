@@ -10,19 +10,26 @@
           <Spinner />
         </div>
 
+        <div
+          v-if="postsData.length == 0 && !loading"
+          class="flex justify-center items-center h-screen"
+        >
+          No post found.
+        </div>
+
         <div v-else class="w-[60rem] mx-auto grid grid-cols-3 gap-1 pt-10 pb-2">
           <div
             v-for="(post, i) in postsData"
             @click="toggleModal(post.id)"
             :key="i"
-            class="group relative cursor-pointer"
+            class="group relative cursor-pointer border"
             :class="{ 'row-span-2': isPatternMatch(i + 1) }"
           >
             <img
               class="object-cover"
               :class="isPatternMatch(i + 1) ? 'h-[30rem] w-80' : 'aspect-[4/3]'"
-              :alt="`Image by ${post.user.username}`"
-              :src="post.image"
+              :src="$page.props.storagePath + 'posts/images/' + post.image"
+              :alt="`Post by ${post.user.username}`"
             />
 
             <!-- Backdrop -->
@@ -41,7 +48,7 @@
           </div>
 
           <button
-            v-if="!moreLoading && postsCount != postsData.length"
+            v-if="!moreLoading && postsCount > postsData.length"
             @click="fetchMoreRandomPosts"
             class="font-semibold text-blue-400 my-4 col-span-full"
           >
