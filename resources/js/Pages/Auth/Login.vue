@@ -1,7 +1,7 @@
 <template>
   <div>
     <Head>
-      <title>Register &#x2022;</title>
+      <title>Login &#x2022;</title>
     </Head>
 
     <Blank>
@@ -9,28 +9,11 @@
         class="h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 to-blue-400"
       >
         <form
-          @submit.prevent="form.post('register')"
+          @submit.prevent="form.post('/login')"
           class="bg-white border border-gray-300 min-h-[30rem] w-[25rem] px-8 pt-12 flex flex-col rounded"
         >
           <div class="w-[4.5rem] h-[4.5rem] mx-auto mb-10">
-            <img
-              loading="lazy"
-              src="../../../public/icon-192.png"
-              alt="Logo"
-              class="object-contain"
-            />
-          </div>
-
-          <div class="mb-4">
-            <input
-              id="username"
-              v-model="form.username"
-              type="text"
-              placeholder="Username"
-              class="outline-none border border-gray-300 rounded-sm px-4 py-2 w-full"
-              :class="form.errors.username ? 'border-red-400' : ''"
-            />
-            <InputError :error="form.errors.username" />
+            <img loading="lazy" :src="icon" alt="Logo" class="object-contain" />
           </div>
 
           <div class="mb-4">
@@ -38,14 +21,14 @@
               id="email"
               v-model="form.email"
               type="text"
-              placeholder="Email"
+              placeholder="Email or username"
               class="outline-none border border-gray-300 rounded-sm px-4 py-2 w-full"
               :class="form.errors.email ? 'border-red-400' : ''"
             />
             <InputError :error="form.errors.email" />
           </div>
 
-          <div class="mb-4">
+          <div class="mb-6">
             <input
               id="password"
               v-model="form.password"
@@ -57,30 +40,20 @@
             <InputError :error="form.errors.password" />
           </div>
 
-          <div class="mb-6">
-            <input
-              id="password_confirmation"
-              v-model="form.password_confirmation"
-              type="password"
-              placeholder="Confirm Password"
-              class="outline-none border border-gray-300 rounded-sm px-4 py-2 w-full"
-              :class="form.errors.password_confirmation ? 'border-red-400' : ''"
-            />
-            <InputError :error="form.errors.password_confirmation" />
-          </div>
-
           <button
             type="submit"
             :disabled="form.processing"
             class="bg-blue-400 text-white font-semibold py-2 rounded transition hover:bg-blue-500"
           >
-            Register
+            Login
           </button>
 
-          <div class="text-sm text-gray-500 block m-auto my-8">
-            Already have an account?
-            <Link :href="route('auth.login-page')" class="text-blue-400 font-semibold">
-              Log in
+          <button class="text-sm text-gray-500 mt-3 w-fit">Forgot password?</button>
+
+          <div class="text-sm text-gray-500 block m-auto">
+            Don't have an account?
+            <Link :href="route('auth.register-page')" class="text-blue-400 font-semibold">
+              Sign up
             </Link>
           </div>
 
@@ -92,8 +65,8 @@
 </template>
 
 <script>
-import Blank from '../Layouts/Blank.vue';
-import InputError from '../Components/InputError.vue';
+import Blank from '../../Layouts/Blank.vue';
+import InputError from '../../Components/InputError.vue';
 import { Head, useForm, Link } from '@inertiajs/vue3';
 
 export default {
@@ -108,11 +81,10 @@ export default {
   },
   data() {
     return {
+      icon: '/icon-192.png',
       form: useForm({
-        username: null,
         email: null,
         password: null,
-        password_confirmation: null,
       }),
     };
   },

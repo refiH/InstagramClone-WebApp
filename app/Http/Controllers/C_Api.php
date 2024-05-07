@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\M_Post;
 use App\Models\M_PostComment;
+use App\Models\M_User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +15,7 @@ class C_Api extends Controller
     $post = M_Post::where('id', $post->id)
       ->with('User:id,username,image')
       ->with(['Likes' => function ($query) {
-        $query->select('id', 'user_id', 'post_id', 'created_at')->with('User:id,username,image');
+        $query->where('user_id', Auth::id());
       }])
       ->withCount('Likes')
       ->withCount('Comments')
@@ -26,6 +27,22 @@ class C_Api extends Controller
   public function getPosts(Request $request)
   {
     $posts = M_Post::with('User:id,username,image')
+      ->with(['Likes' => function ($query) {
+        $query->where('user_id', Auth::id());
+      }])
+      ->withCount('Likes')
+      ->withCount('Comments')
+      ->orderBy('created_at', 'desc')
+      ->paginate($request->count, ['*'], 'page', $request->input('page', 1));
+
+    return response()->json($posts);
+  }
+
+  public function getUserPosts(Request $request, $username)
+  {
+    $user = M_User::where('username', $username);
+
+    $posts = M_Post::where('user_id', $user->id)
       ->withCount('Likes')
       ->withCount('Comments')
       ->orderBy('created_at', 'desc')

@@ -1,12 +1,9 @@
 <template>
-  <div class="animate-pulse bg-gray-200 rounded" :class="class"></div>
+  <div class="animate-pulse bg-gray-200 rounded"></div>
 </template>
 
 <script>
 export default {
-  props: {
-    class: String,
-  },
   setup() {
     return {};
   },

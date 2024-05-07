@@ -35,19 +35,22 @@ Route::get('/logout', [C_Auth::class, 'logout'])->name('auth.logout');
 
 // MAIN
 Route::middleware('auth')->group(function () {
-  // Pages
-  Route::get('/', [C_Pages::class, 'home'])->name('home');
-  Route::get('/explore', [C_Pages::class, 'explore'])->name('explore');
-  Route::get('/add', [C_Pages::class, 'add'])->name('add');
-
   // Post-Related
   Route::post('/post', [C_Post::class, 'post'])->name('post');
   Route::post('/comment', [C_Post::class, 'comment'])->name('comment');
+  Route::post('/like', [C_Post::class, 'like'])->name('like');
 
   // API-Related
   Route::get('/get-posts', [C_Api::class, 'getPosts'])->name('get-posts');
   Route::get('/get-random-posts', [C_Api::class, 'getRandomPosts'])->name('get-random-posts');
+  Route::get('/get-user-posts/{username}', [C_Api::class, 'getUserPosts'])->name('get-user-posts');
   Route::get('/get-post/{post}', [C_Api::class, 'getPost'])->name('get-post');
   Route::get('/get-comments/{post}', [C_Api::class, 'getComments'])->name('get-comments');
   Route::get('/get-auth-user',  [C_Api::class, 'getAuthUser'])->name('get-auth-user');
+
+  // Pages
+  Route::get('/', [C_Pages::class, 'home'])->name('home');
+  Route::get('/explore', [C_Pages::class, 'explore'])->name('explore');
+  Route::get('/add', [C_Pages::class, 'add'])->name('add');
+  Route::get('/user/{username}', [C_Pages::class, 'profile'])->name('profile');
 });

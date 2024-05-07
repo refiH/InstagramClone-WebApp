@@ -1,10 +1,6 @@
 <template>
   <nav class="flex-[1_1_0%] shadow px-2 pt-8 max-w-60 sticky top-0 flex flex-col">
-    <img
-      src="../../../public/icon-192.png"
-      alt="Logo"
-      class="w-[4.5rem] object-contain mx-auto mb-8"
-    />
+    <img :src="icon" alt="Logo" class="w-[4.5rem] object-contain mx-auto mb-8" />
 
     <div class="flex flex-col">
       <Link
@@ -60,6 +56,7 @@ export default {
   setup() {
     return {
       router,
+      icon: '/icon-192.png',
     };
   },
 };

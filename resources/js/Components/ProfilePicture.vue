@@ -1,22 +1,28 @@
 <template>
-  <img
-    :src="src ? src : defaultProfile"
-    class="profile-img bg-slate-200 border-[rgba(0,0,0,0.1)] border rounded-full cursor-pointer hover:shadow transition object-cover"
-    :class="class"
-    :style="`height: ${size}px; width: ${size}px; flex: 0 0 auto`"
-  />
+  <Link :href="href" style="flex: 0 0 auto">
+    <img
+      :src="src ? src : defaultProfile"
+      class="profile-img bg-slate-200 border-[rgba(0,0,0,0.1)] border rounded-full cursor-pointer hover:shadow transition object-cover"
+      :style="`height: ${size}px; width: ${size}px;`"
+    />
+  </Link>
 </template>
 
 <script>
+import { Link } from '@inertiajs/vue3';
+
 export default {
   props: {
     src: String,
-    class: String,
     size: { type: Number, default: 32 },
+    href: String,
+  },
+  components: {
+    Link,
   },
   data() {
     return {
-      defaultProfile: 'images/default_profile.jpg',
+      defaultProfile: '/images/default_profile.jpg',
     };
   },
 };

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class M_PostComment extends Model
@@ -22,6 +23,7 @@ class M_PostComment extends Model
   protected $fillable = [
     'post_id',
     'user_id',
+    'comment_replied_id',
     'content',
   ];
 
@@ -40,5 +42,10 @@ class M_PostComment extends Model
   public function User(): BelongsTo
   {
     return $this->belongsTo(M_User::class, 'user_id', 'id');
+  }
+
+  public function Replies(): HasMany
+  {
+    return $this->hasMany(M_PostComment::class, 'comment_replied_id');
   }
 }

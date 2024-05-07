@@ -36,6 +36,10 @@
             <div
               class="bg-[rgba(0,0,0,0.5)] text-white opacity-0 group-hover:opacity-100 absolute inset-0 transition flex items-center justify-center"
             >
+              <HeartIcon :size="24" class="scale-x-[-1]" />
+              <p class="text-sm font-semibold ml-2 mr-4">
+                {{ post.likes_count }}
+              </p>
               <CommentIcon :size="24" class="scale-x-[-1]" />
               <p class="text-sm font-semibold ml-2">
                 {{ post.comments_count }}
@@ -67,6 +71,7 @@ import PostModal from '../Components/PostModal.vue';
 import Main from '../Layouts/Main.vue';
 import { Head } from '@inertiajs/vue3';
 import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
+import HeartIcon from 'vue-material-design-icons/HeartOutline.vue';
 import { ref } from 'vue';
 import axios from 'axios';
 import Spinner from '../Components/Spinner.vue';
@@ -85,7 +90,7 @@ export default {
   props: {
     postsCount: Number,
   },
-  components: { Main, Head, CommentIcon, PostModal, Spinner },
+  components: { Main, Head, CommentIcon, HeartIcon, PostModal, Spinner },
   mounted() {
     this.fetchRandomPosts();
   },

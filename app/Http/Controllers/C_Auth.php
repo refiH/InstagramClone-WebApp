@@ -18,7 +18,7 @@ class C_Auth extends Controller
 
     $error = session()->get('error');
 
-    return Inertia::render('Login', ['error' => $error]);
+    return Inertia::render('Auth/Login', ['error' => $error]);
   }
 
   public function registerPage()
@@ -29,7 +29,7 @@ class C_Auth extends Controller
 
     $error = session()->get('error');
 
-    return Inertia::render('Register', ['error' => $error]);
+    return Inertia::render('Auth/Register', ['error' => $error]);
   }
 
   public function login(Request $request)

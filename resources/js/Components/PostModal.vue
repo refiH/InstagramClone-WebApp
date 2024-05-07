@@ -13,11 +13,13 @@
         <div class="flex-[5_5_0%] flex flex-col">
           <!-- Account -->
           <div class="px-4 py-3 flex items-center border-b">
-            <ProfilePicture :src="postData.user.image" class="mr-4" />
+            <ProfilePicture
+              :src="postData.user.image"
+              class="mr-4"
+              :href="route('profile', { username: postData.user.username })"
+            />
 
-            <span class="text-sm font-semibold cursor-pointer w-fit hover:underline transition">
-              {{ postData.user.username }}
-            </span>
+            <UserLink :username="postData.user.username" class="text-sm font-semibold" />
 
             <!-- <div class="mx-2 text-xs">&#x2022;</div>
             <p class="text-sm font-semibold text-gray-400">
@@ -52,11 +54,12 @@
                 :key="i"
                 class="text-xs px-4 py-3 flex items-center gap-4"
               >
-                <ProfilePicture :src="comment.user.image" />
+                <ProfilePicture
+                  :src="comment.user.image"
+                  :href="route('profile', { username: comment.user.username })"
+                />
                 <div>
-                  <span class="font-semibold cursor-pointer w-fit hover:underline transition mr-1">
-                    {{ comment.user.username }}
-                  </span>
+                  <UserLink :username="comment.user.username" class="font-semibold mr-1" />
                   <span v-html="comment.content"></span>
                   <br />
                   <span class="text-xs text-gray-400">
@@ -93,10 +96,11 @@
           <div class="flex-1">
             <!-- Actions -->
             <div class="flex items-center p-4 border-b">
-              <HeartOutlineIcon :size="24" />
-              <p class="text-sm font-medium ml-2 mr-4">
-                {{ postData.likes_count }}
-              </p>
+              <Like
+                :post-id="postData.id"
+                :count="postData.likes_count"
+                :status="postData.likes.length == 0 ? false : true"
+              />
               <CommentIcon :size="24" class="scale-x-[-1]" />
               <p class="text-sm font-medium ml-2">
                 {{ postData.comments_count }}
@@ -136,7 +140,9 @@
 <script>
 import Modal from './Modal.vue';
 import ProfilePicture from './ProfilePicture.vue';
+import UserLink from './UserLink.vue';
 import Spinner from './Spinner.vue';
+import Like from './Like.vue';
 import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue';
 import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
 import axios from 'axios';
@@ -155,6 +161,8 @@ export default {
     HeartOutlineIcon,
     CommentIcon,
     Spinner,
+    Like,
+    UserLink,
   },
   setup() {
     return {

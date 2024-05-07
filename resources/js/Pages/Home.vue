@@ -4,7 +4,7 @@
       <title></title>
     </Head>
 
-    <Main :aside="true">
+    <Main aside>
       <section class="w-[28rem] mx-auto pt-16 pb-2">
         <!-- Post -->
         <div v-if="loading" class="flex justify-center">
@@ -19,11 +19,12 @@
           <div v-for="(post, i) in postsData" :key="i">
             <!-- Post-Account -->
             <div class="flex items-center mb-3">
-              <ProfilePicture :src="post.user.image" />
+              <ProfilePicture
+                :src="post.user.image"
+                :href="route('profile', { username: post.user.username })"
+              />
 
-              <p class="text-sm font-bold cursor-pointer ml-3 truncate max-w-80 hover:underline">
-                {{ post.user.username }}
-              </p>
+              <UserLink :username="post.user.username" class="text-sm ml-3" />
               <div class="mx-2 text-xs">&#x2022;</div>
               <p class="text-sm font-semibold text-gray-400">
                 {{ formatTime(post.created_at) }}
@@ -43,8 +44,11 @@
 
             <!-- Post-Actions -->
             <div class="flex items-center mt-3">
-              <HeartOutlineIcon :size="24" />
-              <p class="text-sm font-medium ml-2 mr-4">{{ post.likes_count }}</p>
+              <Like
+                :post-id="post.id"
+                :count="post.likes_count"
+                :status="post.likes.length == 0 ? false : true"
+              />
               <CommentIcon :size="24" class="scale-x-[-1]" />
               <p class="text-sm font-medium ml-2">
                 {{ post.comments_count }}
@@ -53,9 +57,7 @@
 
             <!-- Post-Caption -->
             <p class="text-sm line-clamp-3 mt-3">
-              <span class="font-bold cursor-pointer hover:underline transition mr-1">
-                {{ post.user.username }}
-              </span>
+              <UserLink :username="post.user.username" />
               <span v-html="post.content"></span>
             </p>
 
@@ -91,13 +93,15 @@
 
 <script>
 import Main from '../Layouts/Main.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import ProfilePicture from '../Components/ProfilePicture.vue';
 import Spinner from '../Components/Spinner.vue';
+import UserLink from '../Components/UserLink.vue';
 import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue';
 import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
 import DotsIcon from 'vue-material-design-icons/DotsHorizontal.vue';
 import PostModal from '../Components/PostModal.vue';
+import Like from '../Components/Like.vue';
 import { ref } from 'vue';
 import axios from 'axios';
 
@@ -114,6 +118,9 @@ export default {
     PostModal,
     Spinner,
     Head,
+    Like,
+    Link,
+    UserLink,
   },
   setup() {
     return {

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\M_Post;
+use App\Models\M_User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class C_Pages extends Controller
@@ -25,5 +27,19 @@ class C_Pages extends Controller
   public function add()
   {
     return Inertia::render('Add');
+  }
+
+  public function profile($username)
+  {
+    $user = M_User::where('username', $username)
+      ->select(
+        'id',
+        'username',
+        'image',
+        'bio',
+      )
+      ->firstOrFail();
+
+    return Inertia::render('Profile', ['user' => $user]);
   }
 }

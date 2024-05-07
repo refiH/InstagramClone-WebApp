@@ -11,11 +11,13 @@
       </div>
 
       <div v-else class="flex h-fit w-full gap-4 items-center">
-        <ProfilePicture :src="authUserData.image" :size="52" />
+        <ProfilePicture
+          :src="authUserData.image"
+          :size="52"
+          :href="route('profile', { username: authUserData.username })"
+        />
         <div>
-          <h6 class="font-bold truncate max-w-64 cursor-pointer w-fit hover:underline transition">
-            {{ authUserData.username }}
-          </h6>
+          <UserLink :username="authUserData.username" class="truncate max-w-64" />
           <p class="text-xs truncate max-w-64">
             {{ authUserData.bio }}
           </p>
@@ -35,15 +37,11 @@
             :key="i"
             class="flex h-fit w-full gap-4 items-center"
           >
-            <ProfilePicture :size="40" />
+            <ProfilePicture :size="40" href="#" />
 
             <div class="flex w-full items-center justify-between">
               <div>
-                <h6
-                  class="font-bold truncate max-w-52 cursor-pointer w-fit hover:underline transition text-sm"
-                >
-                  {{ suggestion.name }}
-                </h6>
+                <UserLink :username="suggestion.name" class="text-sm truncate max-w-52" />
                 <p class="text-xs truncate max-w-52">
                   Followed by
                   {{ suggestion.followedBy.toString().split(',').join(', ') }}
@@ -63,13 +61,15 @@
 </template>
 
 <script>
+import { Link } from '@inertiajs/vue3';
 import ProfilePicture from './ProfilePicture.vue';
+import UserLink from './UserLink.vue';
 import { ref } from 'vue';
 import axios from 'axios';
 import Skeleton from './Skeleton.vue';
 
 export default {
-  components: { ProfilePicture, Skeleton },
+  components: { ProfilePicture, Skeleton, Link, UserLink },
   data() {
     return {
       loading: ref(false),
