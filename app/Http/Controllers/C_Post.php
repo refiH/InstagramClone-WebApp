@@ -7,16 +7,28 @@ use App\Models\M_PostComment;
 use App\Models\M_PostLike;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Glide\GlideImage;
 
 class C_Post extends Controller
 {
   public function post(Request $request)
   {
     $request->validate([
-      'image' => 'required|image|mimes:png,jpg,jpeg|max:2048'
+      'image' => 'required|image|mimes:png,jpg,jpeg,webp|max:5120'
     ]);
-    $imageName = time() . '.' . $request->image->extension();
-    $request->image->move(storage_path('app/public/posts/images'), $imageName);
+
+    $imageName = Auth::user()->username . '_'  . time() . '.' . $request->image->extension();
+    $path = storage_path("app/public/posts/images");
+
+    $request->file('image')->move($path, $imageName);
+    $image = storage_path("app/public/posts/images/$imageName");
+
+    // resize image
+    if (filesize($image) > 1024 * 1024) {
+      GlideImage::create($image)
+        ->modify(['q' => 70])
+        ->save($image);
+    }
 
     M_Post::create([
       'user_id' => Auth::user()->id,

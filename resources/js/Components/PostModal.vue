@@ -36,9 +36,7 @@
               <div>
                 <p v-html="postData.content" class="text-sm mb-1"></p>
 
-                <span class="text-xs text-gray-400">
-                  {{ formatTime(postData.created_at) }}
-                </span>
+                <DateTime :date="postData.created_at" class="text-xs" />
               </div>
             </div>
 
@@ -62,9 +60,7 @@
                   <UserLink :username="comment.user.username" class="font-semibold mr-1" />
                   <span v-html="comment.content"></span>
                   <br />
-                  <span class="text-xs text-gray-400">
-                    {{ formatTime(comment.created_at) }}
-                  </span>
+                  <DateTime :date="comment.created_at" class="text-xs mt-1" />
                 </div>
               </div>
 
@@ -141,6 +137,7 @@
 import Modal from './Modal.vue';
 import ProfilePicture from './ProfilePicture.vue';
 import UserLink from './UserLink.vue';
+import DateTime from './DateTime.vue';
 import Spinner from './Spinner.vue';
 import Like from './Like.vue';
 import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue';
@@ -163,6 +160,7 @@ export default {
     Spinner,
     Like,
     UserLink,
+    DateTime,
   },
   setup() {
     return {
@@ -241,32 +239,6 @@ export default {
         },
       });
       this.form.content = '';
-    },
-    formatTime(date) {
-      const now = new Date();
-      const createdDate = new Date(date);
-
-      const timeDiff = Math.abs(now - createdDate);
-
-      const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-
-      let result = '';
-      if (days > 0) {
-        result = days + 'd';
-      } else if (hours > 0) {
-        result = hours + 'hr';
-      } else if (minutes > 0) {
-        result = minutes + 'm';
-      } else {
-        result = seconds + 's';
-      }
-
-      result = result.replace(/,\s*$/, '');
-
-      return result;
     },
   },
 };

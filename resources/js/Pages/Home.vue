@@ -26,9 +26,7 @@
 
               <UserLink :username="post.user.username" class="text-sm ml-3" />
               <div class="mx-2 text-xs">&#x2022;</div>
-              <p class="text-sm font-semibold text-gray-400">
-                {{ formatTime(post.created_at) }}
-              </p>
+              <DateTime class="font-semibold" :date="post.created_at" />
 
               <DotsIcon class="ml-auto cursor-pointer" />
             </div>
@@ -104,6 +102,7 @@ import PostModal from '../Components/PostModal.vue';
 import Like from '../Components/Like.vue';
 import { ref } from 'vue';
 import axios from 'axios';
+import DateTime from '../Components/DateTime.vue';
 
 export default {
   props: {
@@ -121,6 +120,7 @@ export default {
     Like,
     Link,
     UserLink,
+    DateTime,
   },
   setup() {
     return {
@@ -177,32 +177,6 @@ export default {
     toggleModal(post) {
       this.modalActive = !this.modalActive;
       this.selectedPost = post;
-    },
-    formatTime(date) {
-      const now = new Date();
-      const createdDate = new Date(date);
-
-      const timeDiff = Math.abs(now - createdDate);
-
-      const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-
-      let result = '';
-      if (days > 0) {
-        result = days + 'd';
-      } else if (hours > 0) {
-        result = hours + 'hr';
-      } else if (minutes > 0) {
-        result = minutes + 'm';
-      } else {
-        result = seconds + 's';
-      }
-
-      result = result.replace(/,\s*$/, '');
-
-      return result;
     },
   },
 };
