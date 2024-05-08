@@ -4,14 +4,7 @@ use App\Http\Controllers\C_Api;
 use App\Http\Controllers\C_Auth;
 use App\Http\Controllers\C_Pages;
 use App\Http\Controllers\C_Post;
-use App\Models\M_Post;
-use App\Models\M_PostComment;
-use App\Models\M_User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,12 +18,13 @@ use Inertia\Inertia;
 */
 
 // AUTH
-Route::get('/login', [C_Auth::class, 'loginPage'])->name('auth.login-page');
-Route::get('/register', [C_Auth::class, 'registerPage'])->name('auth.register-page');
+Route::middleware('guest')->group(function () {
+  Route::get('/login', [C_Auth::class, 'loginPage'])->name('auth.login-page');
+  Route::get('/register', [C_Auth::class, 'registerPage'])->name('auth.register-page');
 
-Route::post('/login', [C_Auth::class, 'login'])->name('auth.login');
-Route::post('/register', [C_Auth::class, 'register'])->name('auth.register');
-
+  Route::post('/login', [C_Auth::class, 'login'])->name('auth.login');
+  Route::post('/register', [C_Auth::class, 'register'])->name('auth.register');
+});
 Route::get('/logout', [C_Auth::class, 'logout'])->name('auth.logout');
 
 // MAIN

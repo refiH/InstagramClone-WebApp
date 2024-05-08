@@ -234,7 +234,7 @@ export default {
     },
     submitCommentForm() {
       this.convertNewLine();
-      this.form.post('/comment', {
+      this.form.post(route('comment'), {
         onSuccess: () => {
           this.fetchComments(this.postId);
           this.postData.comments_count += 1;

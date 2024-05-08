@@ -5,19 +5,19 @@
     </Head>
 
     <Main>
-      <section>
-        <div v-if="loading" class="flex justify-center items-center h-screen">
+      <section class="pt-3 pb-1">
+        <div v-if="loading" class="flex justify-center items-center h-[92.5vh]">
           <Spinner />
         </div>
 
         <div
           v-if="postsData.length == 0 && !loading"
-          class="flex justify-center items-center h-screen"
+          class="flex justify-center items-center h-[92.5vh]"
         >
           No post found.
         </div>
 
-        <div v-else class="w-[60rem] mx-auto grid grid-cols-3 gap-1 pt-10 pb-2">
+        <div v-else class="w-[60rem] mx-auto grid grid-cols-3 gap-1 pt-10">
           <div
             v-for="(post, i) in postsData"
             @click="toggleModal(post.id)"
@@ -27,7 +27,7 @@
           >
             <img
               class="object-cover"
-              :class="isPatternMatch(i + 1) ? 'h-[30rem] w-80' : 'aspect-[4/3]'"
+              :class="isPatternMatch(i + 1) ? 'h-full' : 'aspect-[4/3]'"
               :src="$page.props.storagePath + 'posts/images/' + post.image"
               :alt="`Post by ${post.user.username}`"
             />
@@ -46,19 +46,20 @@
               </p>
             </div>
           </div>
-
-          <div v-if="moreLoading" class="flex justify-center my-6 col-span-full">
-            <Spinner />
-          </div>
-
-          <button
-            v-if="!moreLoading && postsCount > postsData.length"
-            @click="fetchMoreRandomPosts"
-            class="font-semibold text-blue-400 my-4 col-span-full"
-          >
-            Load more
-          </button>
         </div>
+
+        <!-- More-Posts -->
+        <div v-if="moreLoading" class="flex justify-center my-6 w-full">
+          <Spinner />
+        </div>
+
+        <button
+          v-if="!moreLoading && !loading && postsCount > postsData.length"
+          @click="fetchMoreRandomPosts"
+          class="font-semibold text-blue-400 my-4 block mx-auto"
+        >
+          Load more
+        </button>
       </section>
 
       <PostModal :modal-active="modalActive" @toggle-modal="toggleModal" :post-id="selectedPost" />
@@ -98,7 +99,7 @@ export default {
     async fetchRandomPosts() {
       try {
         this.loading = true;
-        let response = await axios.get(route('get-posts', { count: this.dataCount }));
+        let response = await axios.get(route('get-random-posts', { count: this.dataCount }));
         this.postsData = response.data.data;
       } catch (error) {
         console.error('Error fetching posts: ', error);
@@ -123,9 +124,9 @@ export default {
     isPatternMatch(index) {
       return index % 10 === 3 || index % 10 === 6;
     },
-    toggleModal(post) {
+    toggleModal(postId) {
       this.modalActive = !this.modalActive;
-      this.selectedPost = post;
+      this.selectedPost = postId;
     },
   },
 };

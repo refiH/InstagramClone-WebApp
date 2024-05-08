@@ -40,7 +40,7 @@ class C_Api extends Controller
 
   public function getUserPosts(Request $request, $username)
   {
-    $user = M_User::where('username', $username);
+    $user = M_User::where('username', $username)->first();
 
     $posts = M_Post::where('user_id', $user->id)
       ->withCount('Likes')

@@ -96,7 +96,7 @@ export default {
     },
     submitForm() {
       this.convertNewLine();
-      this.form.post('/post');
+      this.form.post(route('post'));
       this.form.content = '';
     },
     resetForm() {

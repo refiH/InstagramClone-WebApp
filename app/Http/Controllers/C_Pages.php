@@ -38,6 +38,9 @@ class C_Pages extends Controller
         'image',
         'bio',
       )
+      ->withCount('Posts')
+      ->withCount('Follows')
+      ->withCount('Followers')
       ->firstOrFail();
 
     return Inertia::render('Profile', ['user' => $user]);

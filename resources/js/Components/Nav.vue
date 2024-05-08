@@ -35,7 +35,7 @@
       </Link>
     </div>
 
-    <form @submit.prevent="router.get('/logout')" class="mb-4 mt-auto mx-auto">
+    <form @submit.prevent="router.get(route('auth.logout'))" class="mb-4 mt-auto mx-auto">
       <button type="submit" class="flex gap-2 text-red-400">
         <LogoutIcon />
         Logout

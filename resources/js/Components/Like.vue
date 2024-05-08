@@ -40,7 +40,7 @@ export default {
     },
     submitLike() {
       axios
-        .post('like', this.form)
+        .post(route('like'), this.form)
         .then((res) => {
           if (res.data.message == 'added') {
             this.likesCount = res.data.count;

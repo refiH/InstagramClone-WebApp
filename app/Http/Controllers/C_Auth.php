@@ -12,9 +12,9 @@ class C_Auth extends Controller
 {
   public function loginPage()
   {
-    if (Auth::check()) {
-      return to_route('home');
-    }
+    // if (Auth::check()) {
+    //   return to_route('home');
+    // }
 
     $error = session()->get('error');
 
@@ -23,9 +23,9 @@ class C_Auth extends Controller
 
   public function registerPage()
   {
-    if (Auth::check()) {
-      return to_route('home');
-    }
+    // if (Auth::check()) {
+    //   return to_route('home');
+    // }
 
     $error = session()->get('error');
 
@@ -54,7 +54,7 @@ class C_Auth extends Controller
   public function register(Request $request)
   {
     $request->validate([
-      'username' => 'required|unique:users',
+      'username' => 'required|max:40|unique:users',
       'email' => 'required|email|unique:users',
       'password' => 'required|confirmed|min:8'
     ]);

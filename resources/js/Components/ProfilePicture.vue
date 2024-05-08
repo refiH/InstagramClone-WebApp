@@ -1,11 +1,18 @@
 <template>
-  <Link :href="href" style="flex: 0 0 auto">
+  <Link v-if="href" :href="href" style="flex: 0 0 auto">
     <img
       :src="src ? src : defaultProfile"
       class="profile-img bg-slate-200 border-[rgba(0,0,0,0.1)] border rounded-full cursor-pointer hover:shadow transition object-cover"
-      :style="`height: ${size}px; width: ${size}px;`"
+      :style="`height: ${size}px; width: ${size}px; flex: 0 0 auto;`"
     />
   </Link>
+
+  <img
+    v-else
+    :src="src ? src : defaultProfile"
+    class="profile-img bg-slate-200 border-[rgba(0,0,0,0.1)] border rounded-full cursor-pointer hover:shadow transition object-cover"
+    :style="`height: ${size}px; width: ${size}px; flex: 0 0 auto;`"
+  />
 </template>
 
 <script>

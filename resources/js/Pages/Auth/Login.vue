@@ -9,7 +9,7 @@
         class="h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 to-blue-400"
       >
         <form
-          @submit.prevent="form.post('/login')"
+          @submit.prevent="form.post(route('auth.login'))"
           class="bg-white border border-gray-300 min-h-[30rem] w-[25rem] px-8 pt-12 flex flex-col rounded"
         >
           <div class="w-[4.5rem] h-[4.5rem] mx-auto mb-10">
@@ -22,6 +22,8 @@
               v-model="form.email"
               type="text"
               placeholder="Email or username"
+              @keydown="restrictCharacters"
+              :maxlength="320"
               class="outline-none border border-gray-300 rounded-sm px-4 py-2 w-full"
               :class="form.errors.email ? 'border-red-400' : ''"
             />
@@ -87,6 +89,15 @@ export default {
         password: null,
       }),
     };
+  },
+  methods: {
+    restrictCharacters(event) {
+      const allowedCharacters = /[a-zA-Z0-9._@-]/;
+
+      if (!allowedCharacters.test(event.key)) {
+        event.preventDefault();
+      }
+    },
   },
 };
 </script>
