@@ -7,6 +7,11 @@
   scrollbar-width: none;
 }
 
+button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 @layer base {
 
   /* NUNITO SANS */

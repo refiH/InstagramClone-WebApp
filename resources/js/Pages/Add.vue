@@ -21,7 +21,7 @@
             <input
               id="image"
               type="file"
-              accept="image/jpeg"
+              accept="image/*"
               class="w-full border p-4 mt-2"
               @change="previewImage"
               @input="form.image = $event.target.files[0]"
@@ -53,7 +53,7 @@
             <button
               type="submit"
               :disabled="form.processing"
-              class="text-lg font-semibold text-blue-400"
+              class="text-lg font-semibold text-primary"
             >
               Submit
             </button>

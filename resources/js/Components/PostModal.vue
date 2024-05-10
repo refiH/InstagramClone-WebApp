@@ -5,7 +5,7 @@
         <div class="bg-black flex items-center justify-center flex-[4_4_0%]">
           <img
             class="object-contain h-full text-white"
-            :src="$page.props.storagePath + 'posts/images/' + postData.image"
+            :src="$page.props.storagePath + 'images/posts/' + postData.image"
             :alt="`Post by ${postData.user.username}`"
           />
         </div>
@@ -14,7 +14,7 @@
           <!-- Account -->
           <div class="px-4 py-3 flex items-center border-b">
             <ProfilePicture
-              :src="postData.user.image"
+              :src="$page.props.storagePath + 'images/profile/' + postData.user.image"
               class="mr-4"
               :href="route('profile', { username: postData.user.username })"
             />
@@ -53,7 +53,7 @@
                 class="text-xs px-4 py-3 flex items-center gap-4"
               >
                 <ProfilePicture
-                  :src="comment.user.image"
+                  :src="$page.props.storagePath + 'images/profile/' + comment.user.image"
                   :href="route('profile', { username: comment.user.username })"
                 />
                 <div>
@@ -78,7 +78,7 @@
                   postData.comments_count > commentsData.length
                 "
                 @click="fetchMoreComments(postId)"
-                class="font-semibold text-sm text-blue-400 mb-4"
+                class="font-semibold text-sm text-primary mb-4"
               >
                 Load more
               </button>
@@ -115,7 +115,7 @@
                 class="flex-1 px-2 py-4 outline-none resize-none"
                 v-model="form.content"
               ></textarea>
-              <button type="submit" :disabled="form.processing" class="font-semibold text-blue-400">
+              <button type="submit" :disabled="form.processing" class="font-semibold text-primary">
                 Post
               </button>
             </form>

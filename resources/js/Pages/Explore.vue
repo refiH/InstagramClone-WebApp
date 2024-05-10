@@ -28,7 +28,7 @@
             <img
               class="object-cover"
               :class="isPatternMatch(i + 1) ? 'h-full' : 'aspect-[4/3]'"
-              :src="$page.props.storagePath + 'posts/images/' + post.image"
+              :src="$page.props.storagePath + 'images/posts/' + post.image"
               :alt="`Post by ${post.user.username}`"
             />
 
@@ -56,7 +56,7 @@
         <button
           v-if="!moreLoading && !loading && postsCount > postsData.length"
           @click="fetchMoreRandomPosts"
-          class="font-semibold text-blue-400 my-4 block mx-auto"
+          class="font-semibold text-primary my-4 block mx-auto"
         >
           Load more
         </button>

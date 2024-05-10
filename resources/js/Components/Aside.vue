@@ -12,7 +12,7 @@
 
       <div v-else class="flex h-fit w-full gap-4 items-center">
         <ProfilePicture
-          :src="authUserData.image"
+          :src="$page.props.storagePath + 'images/profile/' + authUserData.image"
           :size="52"
           :href="route('profile', { username: authUserData.username })"
         />
@@ -48,7 +48,7 @@
                 </p>
               </div>
 
-              <p class="text-sm font-semibold text-blue-400 cursor-pointer">Follow</p>
+              <p class="text-sm font-semibold text-primary cursor-pointer">Follow</p>
             </div>
           </div>
         </div>

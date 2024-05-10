@@ -8,7 +8,10 @@
       <section class="w-[60rem] mx-auto">
         <!-- Avatar -->
         <div class="flex items-center gap-32 py-8 border-b px-16 relative">
-          <ProfilePicture :size="160" :src="user.image" />
+          <ProfilePicture
+            :size="160"
+            :src="$page.props.storagePath + 'images/profile/' + user.image"
+          />
 
           <div class="flex-1">
             <h5 class="font-semibold text-xl">{{ user.username }}</h5>
@@ -39,11 +42,11 @@
 
           <Link
             v-if="$page.props.auth.user.username == user.username"
-            href="#"
+            :href="route('edit-profile')"
             class="absolute right-8 bottom-4"
           >
             <button
-              class="text-sm px-2 py-1 border rounded text-blue-400 border-blue-400 hover:bg-blue-400 hover:text-white transition"
+              class="text-sm px-3 py-1 border rounded text-primary border-primary hover:bg-primary hover:text-white transition"
             >
               Edit Profile
             </button>
@@ -75,7 +78,7 @@
             >
               <img
                 class="object-cover aspect-[inherit]"
-                :src="$page.props.storagePath + 'posts/images/' + post.image"
+                :src="$page.props.storagePath + 'images/posts/' + post.image"
                 :alt="`Post by ${user.username}`"
               />
 
@@ -104,7 +107,7 @@
           <button
             v-if="!moreLoading && !loading && user.posts_count > postsData.length"
             @click="fetchMoreUserPosts"
-            class="font-semibold text-blue-400 my-4 block mx-auto"
+            class="font-semibold text-primary my-4 block mx-auto"
           >
             Load more
           </button>

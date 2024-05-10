@@ -7,7 +7,7 @@
         class="flex items-center gap-4 font-medium rounded py-3 px-4 hover:bg-gray-200 transition"
         href="/"
         :class="{
-          'bg-blue-400 text-light hover:!bg-blue-500': $page.component === 'Home',
+          'bg-primary text-light hover:!bg-primary-dark': $page.component === 'Home',
         }"
       >
         <HomeIcon :size="32" />
@@ -17,7 +17,7 @@
         class="flex items-center gap-4 font-medium rounded py-3 px-4 hover:bg-gray-200 transition"
         href="/explore"
         :class="{
-          'bg-blue-400 text-light hover:!bg-blue-500': $page.component === 'Explore',
+          'bg-primary text-light hover:!bg-primary-dark': $page.component === 'Explore',
         }"
       >
         <CompassIcon :size="32" />
@@ -27,7 +27,7 @@
         class="flex items-center gap-4 font-medium rounded py-3 px-4 hover:bg-gray-200 transition"
         href="/add"
         :class="{
-          'bg-blue-400 text-light hover:!bg-blue-500': $page.component === 'Add',
+          'bg-primary text-light hover:!bg-primary-dark': $page.component === 'Add',
         }"
       >
         <PlusIcon :size="32" />

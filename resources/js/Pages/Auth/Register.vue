@@ -6,7 +6,7 @@
 
     <Blank>
       <main
-        class="h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 to-blue-400"
+        class="h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 to-primary"
       >
         <form
           @submit.prevent="form.post(route('auth.register'))"
@@ -69,14 +69,14 @@
           <button
             type="submit"
             :disabled="form.processing"
-            class="bg-blue-400 text-white font-semibold py-2 rounded transition hover:bg-blue-500"
+            class="bg-primary text-white font-semibold py-2 rounded transition hover:bg-primary-dark"
           >
             Register
           </button>
 
           <div class="text-sm text-gray-500 block m-auto my-8">
             Already have an account?
-            <Link :href="route('auth.login-page')" class="text-blue-400 font-semibold">
+            <Link :href="route('auth.login-page')" class="text-primary font-semibold">
               Log in
             </Link>
           </div>

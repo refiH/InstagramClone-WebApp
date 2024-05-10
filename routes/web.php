@@ -4,7 +4,12 @@ use App\Http\Controllers\C_Api;
 use App\Http\Controllers\C_Auth;
 use App\Http\Controllers\C_Pages;
 use App\Http\Controllers\C_Post;
+use App\Models\M_User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+use Spatie\Glide\GlideImage;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,10 +46,12 @@ Route::middleware('auth')->group(function () {
   Route::get('/get-post/{post}', [C_Api::class, 'getPost'])->name('get-post');
   Route::get('/get-comments/{post}', [C_Api::class, 'getComments'])->name('get-comments');
   Route::get('/get-auth-user',  [C_Api::class, 'getAuthUser'])->name('get-auth-user');
+  Route::post('/save-profile-image', [C_Api::class, 'saveProfileImage'])->name('save-profile-image');
 
   // Pages
   Route::get('/', [C_Pages::class, 'home'])->name('home');
   Route::get('/explore', [C_Pages::class, 'explore'])->name('explore');
   Route::get('/add', [C_Pages::class, 'add'])->name('add');
   Route::get('/user/{username}', [C_Pages::class, 'profile'])->name('profile');
+  Route::get('/edit-profile', [C_Pages::class, 'editProfile'])->name('edit-profile');
 });

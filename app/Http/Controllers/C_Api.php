@@ -7,6 +7,7 @@ use App\Models\M_PostComment;
 use App\Models\M_User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Glide\GlideImage;
 
 class C_Api extends Controller
 {
@@ -88,5 +89,26 @@ class C_Api extends Controller
     ];
 
     return response()->json($userData);
+  }
+
+  public function saveProfileImage(Request $request)
+  {
+    if ($request->hasFile('file')) {
+      $user = M_User::where('username', Auth::user()->username)->first();
+
+      $file = $request->file('file');
+      $imageName = $user->username . '_' . 'profile' . '_' . time() . '.' . $file->extension();
+      $file->move(storage_path("app/public/images/profile"), $imageName);
+
+      // resize image
+      $image = storage_path("app/public/images/profile/$imageName");
+      GlideImage::create($image)
+        ->modify(['w' => 240, 'h' => 240])
+        ->save($image);
+
+      $user->update([
+        'image' => $imageName
+      ]);
+    }
   }
 }

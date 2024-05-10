@@ -20,7 +20,7 @@
             <!-- Post-Account -->
             <div class="flex items-center mb-3">
               <ProfilePicture
-                :src="post.user.image"
+                :src="$page.props.storagePath + 'images/profile/' + post.user.image"
                 :href="route('profile', { username: post.user.username })"
               />
 
@@ -35,7 +35,7 @@
             <div class="bg-black flex items-center justify-center">
               <img
                 class="object-contain min-h-[15rem] max-h-[35rem] text-white"
-                :src="$page.props.storagePath + 'posts/images/' + post.image"
+                :src="$page.props.storagePath + 'images/posts/' + post.image"
                 :alt="`Post by by ${post.user.username}`"
               />
             </div>
@@ -77,7 +77,7 @@
           <button
             v-if="!moreLoading && !loading && postsCount > postsData.length"
             @click="fetchMorePosts"
-            class="font-semibold text-blue-400 mb-4 block mx-auto"
+            class="font-semibold text-primary mb-4 block mx-auto"
           >
             Load more
           </button>

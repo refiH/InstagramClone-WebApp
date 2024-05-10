@@ -17,11 +17,11 @@ class C_Post extends Controller
       'image' => 'required|image|mimes:png,jpg,jpeg,webp|max:5120'
     ]);
 
-    $imageName = Auth::user()->username . '_'  . time() . '.' . $request->image->extension();
-    $path = storage_path("app/public/posts/images");
+    $imageName = Auth::user()->username . '_' . 'post' . '_' . $request->image->extension();
+    $path = storage_path("app/public/images/posts");
 
     $request->file('image')->move($path, $imageName);
-    $image = storage_path("app/public/posts/images/$imageName");
+    $image = storage_path("app/public/images/posts/$imageName");
 
     // resize image
     if (filesize($image) > 1024 * 1024) {

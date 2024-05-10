@@ -1,7 +1,7 @@
 <template>
   <span
     class="loader"
-    :class="`border-[3px] border-blue-400`"
+    :class="`border-[3px] border-primary`"
     :style="`height: ${size}px; width: ${size}px;`"
   ></span>
 </template>

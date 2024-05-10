@@ -45,4 +45,11 @@ class C_Pages extends Controller
 
     return Inertia::render('Profile', ['user' => $user]);
   }
+
+  public function editProfile()
+  {
+    $user = Auth::user();
+
+    return Inertia::render('EditProfile', ['user' => $user]);
+  }
 }

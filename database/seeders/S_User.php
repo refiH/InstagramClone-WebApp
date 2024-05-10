@@ -21,7 +21,7 @@ class S_User extends Seeder
       'username' => 'refih15',
       'email' => 'refihikman06@gmail.com',
       'password' => Hash::make('refihikman123'),
-      'image' => "https://i.pinimg.com/236x/f3/e3/b8/f3e3b88697ccdcb460103397619d1e86.jpg",
+      'image' => "meruem.jpg",
       'bio' => 'atmin',
       'is_admin' => true,
     ]);
