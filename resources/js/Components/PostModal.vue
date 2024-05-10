@@ -21,10 +21,24 @@
 
             <UserLink :username="postData.user.username" class="text-sm font-semibold" />
 
-            <!-- <div class="mx-2 text-xs">&#x2022;</div>
-            <p class="text-sm font-semibold text-gray-400">
-              {{ formatTime(postData.created_at) }}
-            </p> -->
+            <Dropdown
+              v-if="$page.props.auth.user.username == postData.user.username"
+              class="ml-auto"
+            >
+              <template #toggler>
+                <button>
+                  <DotsIcon class="cursor-pointer" />
+                </button>
+              </template>
+              <DropdownContent>
+                <form @submit.prevent="deletePost(postId)">
+                  <DropdownItem class="flex gap-3 items-center">
+                    <DeleteIcon />
+                    Delete
+                  </DropdownItem>
+                </form>
+              </DropdownContent>
+            </Dropdown>
           </div>
 
           <!-- Caption & Comments -->
@@ -143,13 +157,18 @@ import Spinner from './Spinner.vue';
 import Like from './Like.vue';
 import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue';
 import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
+import DotsIcon from 'vue-material-design-icons/DotsHorizontal.vue';
+import DeleteIcon from 'vue-material-design-icons/Delete.vue';
 import axios from 'axios';
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import { useDark } from '@vueuse/core';
+import Dropdown from '../Components/Dropdown.vue';
+import DropdownContent from '../Components/DropdownContent.vue';
+import DropdownItem from '../Components/DropdownItem.vue';
 
 export default {
-  emits: ['toggle-modal'],
+  emits: ['toggle-modal', 'fetch-data'],
   props: {
     modalActive: Boolean,
     postId: String,
@@ -159,10 +178,15 @@ export default {
     ProfilePicture,
     HeartOutlineIcon,
     CommentIcon,
+    DotsIcon,
+    DeleteIcon,
     Spinner,
     Like,
     UserLink,
     DateTime,
+    Dropdown,
+    DropdownContent,
+    DropdownItem,
   },
   setup() {
     return {
@@ -175,6 +199,9 @@ export default {
       form: useForm({
         postId: null,
         content: '',
+      }),
+      deleteForm: useForm({
+        id: null,
       }),
     };
   },
@@ -226,6 +253,18 @@ export default {
       } finally {
         this.commentsMoreLoading = false;
       }
+    },
+    deletePost(id) {
+      this.deleteForm.id = id;
+      this.deleteForm.delete(route('delete'), {
+        onSuccess: () => {
+          this.toggleModal();
+          this.refetchData();
+        },
+      });
+    },
+    refetchData() {
+      this.$emit('fetch-data');
     },
     toggleModal() {
       this.$emit('toggle-modal');

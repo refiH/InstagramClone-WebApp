@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/post', [C_Post::class, 'post'])->name('post');
   Route::post('/comment', [C_Post::class, 'comment'])->name('comment');
   Route::post('/like', [C_Post::class, 'like'])->name('like');
+  Route::delete('/delete', [C_Post::class, 'delete'])->name('delete');
 
   // API-Related
   Route::get('/get-posts', [C_Api::class, 'getPosts'])->name('get-posts');

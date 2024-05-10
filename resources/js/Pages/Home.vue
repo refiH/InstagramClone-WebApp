@@ -28,7 +28,21 @@
               <div class="mx-2 text-xs">&#x2022;</div>
               <DateTime class="font-semibold" :date="post.created_at" />
 
-              <DotsIcon class="ml-auto cursor-pointer" />
+              <Dropdown v-if="$page.props.auth.user.username == post.user.username" class="ml-auto">
+                <template #toggler>
+                  <button>
+                    <DotsIcon class="cursor-pointer" />
+                  </button>
+                </template>
+                <DropdownContent>
+                  <form @submit.prevent="deletePost(post.id)">
+                    <DropdownItem class="flex gap-3 items-center">
+                      <DeleteIcon />
+                      Delete
+                    </DropdownItem>
+                  </form>
+                </DropdownContent>
+              </Dropdown>
             </div>
 
             <!-- Post-Image -->
@@ -84,25 +98,34 @@
         </div>
       </section>
 
-      <PostModal :modal-active="modalActive" @toggle-modal="toggleModal" :post-id="selectedPost" />
+      <PostModal
+        :modal-active="modalActive"
+        @toggle-modal="toggleModal"
+        :post-id="selectedPost"
+        @fetch-data="fetchPosts"
+      />
     </Main>
   </div>
 </template>
 
 <script>
 import Main from '../Layouts/Main.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import ProfilePicture from '../Components/ProfilePicture.vue';
 import Spinner from '../Components/Spinner.vue';
 import UserLink from '../Components/UserLink.vue';
 import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue';
 import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
 import DotsIcon from 'vue-material-design-icons/DotsHorizontal.vue';
+import DeleteIcon from 'vue-material-design-icons/Delete.vue';
 import PostModal from '../Components/PostModal.vue';
 import Like from '../Components/Like.vue';
 import { ref } from 'vue';
 import axios from 'axios';
 import DateTime from '../Components/DateTime.vue';
+import Dropdown from '../Components/Dropdown.vue';
+import DropdownContent from '../Components/DropdownContent.vue';
+import DropdownItem from '../Components/DropdownItem.vue';
 
 export default {
   props: {
@@ -113,6 +136,7 @@ export default {
     DotsIcon,
     HeartOutlineIcon,
     CommentIcon,
+    DeleteIcon,
     ProfilePicture,
     PostModal,
     Spinner,
@@ -121,6 +145,9 @@ export default {
     Link,
     UserLink,
     DateTime,
+    Dropdown,
+    DropdownContent,
+    DropdownItem,
   },
   setup() {
     return {
@@ -130,6 +157,9 @@ export default {
       loading: ref(false),
       moreLoading: ref(false),
       dataCount: 5,
+      deleteForm: useForm({
+        id: ref(null),
+      }),
     };
   },
   mounted() {
@@ -174,6 +204,14 @@ export default {
     //     }
     //   });
     // },
+    deletePost(id) {
+      this.deleteForm.id = id;
+      this.deleteForm.delete(route('delete'), {
+        onSuccess: () => {
+          this.fetchPosts();
+        },
+      });
+    },
     toggleModal(post) {
       this.modalActive = !this.modalActive;
       this.selectedPost = post;

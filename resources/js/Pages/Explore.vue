@@ -12,7 +12,7 @@
 
         <div
           v-if="postsData.length == 0 && !loading"
-          class="flex justify-center items-center h-[92.5vh]"
+          class="flex justify-center items-center h-[90vh]"
         >
           No post found.
         </div>
@@ -26,8 +26,8 @@
             :class="{ 'row-span-2': isPatternMatch(i + 1) }"
           >
             <img
-              class="object-cover"
-              :class="isPatternMatch(i + 1) ? 'h-full' : 'aspect-[4/3] w-full'"
+              class="object-cover w-full"
+              :class="isPatternMatch(i + 1) ? 'h-[30rem] w-80' : 'aspect-[4/3]'"
               :src="$page.props.storagePath + 'images/posts/' + post.image"
               :alt="`Post by ${post.user.username}`"
             />
@@ -62,7 +62,12 @@
         </button>
       </section>
 
-      <PostModal :modal-active="modalActive" @toggle-modal="toggleModal" :post-id="selectedPost" />
+      <PostModal
+        :modal-active="modalActive"
+        @toggle-modal="toggleModal"
+        :post-id="selectedPost"
+        @fetch-data="fetchRandomPosts"
+      />
     </Main>
   </div>
 </template>

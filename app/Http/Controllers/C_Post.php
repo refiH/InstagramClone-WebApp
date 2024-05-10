@@ -74,4 +74,23 @@ class C_Post extends Controller
       return response()->json(['message' => 'added', 'count' => $likesCount]);
     }
   }
+
+  public function delete(Request $request)
+  {
+    $post = M_Post::where('id', $request->id)->first();
+
+    $likes = $post->Likes;
+    foreach ($likes as $like) {
+      $like->delete();
+    }
+
+    $comments = $post->Comments;
+    foreach ($comments as $comment) {
+      $comment->delete();
+    }
+
+    $post->delete();
+
+    return redirect()->back();
+  }
 }

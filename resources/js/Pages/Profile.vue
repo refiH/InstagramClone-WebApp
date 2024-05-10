@@ -115,7 +115,12 @@
         </div>
       </section>
 
-      <PostModal :modal-active="modalActive" @toggle-modal="toggleModal" :post-id="selectedPost" />
+      <PostModal
+        :modal-active="modalActive"
+        @toggle-modal="toggleModal"
+        :post-id="selectedPost"
+        @fetch-data="fetchUserPosts"
+      />
     </Main>
   </div>
 </template>
