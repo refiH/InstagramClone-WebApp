@@ -1,5 +1,8 @@
 <template>
-  <div class="flex h-screen bg-light text-dark font-body overflow-x-hidden">
+  <div
+    class="flex h-screen font-body overflow-x-hidden"
+    :class="isDark ? 'bg-dark text-light' : 'bg-light text-dark'"
+  >
     <Nav />
 
     <!-- <transition name="fade" mode="out-in" appear> -->
@@ -15,12 +18,18 @@
 <script>
 import Nav from '../Components/Nav.vue';
 import Aside from '../Components/Aside.vue';
+import { useDark } from '@vueuse/core';
 
 export default {
   props: {
     aside: Boolean,
   },
   components: { Nav, Aside },
+  setup() {
+    return {
+      isDark: useDark(),
+    };
+  },
 };
 </script>
 

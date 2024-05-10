@@ -7,10 +7,14 @@
     <Main>
       <form @submit.prevent="submitForm" class="mx-auto flex gap-4 p-8 max-w-[1280px]">
         <div
-          class="bg-gray-100 border flex items-center justify-center w-[28rem] h-[calc(100vh_-_4rem)] sticky top-8 left-0"
+          class="border flex items-center justify-center w-[28rem] h-[calc(100vh_-_4rem)] sticky top-8 left-0 rounded"
+          :class="isDark ? '' : 'bg-gray-100'"
         >
           <img class="object-contain h-full relative z-[1]" :src="imagePreview" alt="" />
-          <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div
+            v-if="!imagePreview"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          >
             <ImageIcon class="text-gray-400" :size="80" />
           </div>
         </div>
@@ -22,7 +26,7 @@
               id="image"
               type="file"
               accept="image/*"
-              class="w-full border p-4 mt-2"
+              class="w-full border p-4 mt-2 rounded"
               @change="previewImage"
               @input="form.image = $event.target.files[0]"
             />
@@ -35,7 +39,8 @@
               id="content"
               cols="30"
               rows="10"
-              class="border p-3 mt-2 resize-none"
+              class="border p-3 mt-2 resize-none rounded"
+              :class="isDark ? 'bg-dark' : 'bg-white'"
               v-model="form.content"
             ></textarea>
             <InputError :error="form.errors.content" />
@@ -70,11 +75,13 @@ import Main from '../Layouts/Main.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import ImageIcon from 'vue-material-design-icons/ImageOutline.vue';
+import { useDark } from '@vueuse/core';
 
 export default {
   components: { Main, Head, ImageIcon, InputError },
   data() {
     return {
+      isDark: useDark(),
       imagePreview: ref(null),
       form: useForm({
         image: null,

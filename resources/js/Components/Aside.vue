@@ -27,8 +27,8 @@
       <!-- Suggestions -->
       <div class="mt-8">
         <div class="flex justify-between mb-4">
-          <p class="text-sm font-semibold text-gray-600">You may know</p>
-          <p class="text-sm font-bold text-dark">See all</p>
+          <p class="text-sm font-semibold text-gray-500">You may know</p>
+          <button class="text-sm font-bold">See all</button>
         </div>
 
         <div class="flex flex-col gap-4">
@@ -56,7 +56,12 @@
     </aside>
 
     <!-- Copyright -->
-    <footer class="mt-6 text-sm text-[rgba(0,0,0,.4)]">&copy; 2024 INERTIAGRAM</footer>
+    <footer
+      class="mt-6 text-sm"
+      :class="isDark ? 'text-[rgba(255,255,255,.4)]' : 'text-[rgba(0,0,0,.4)]'"
+    >
+      &copy; 2024 INERTIAGRAM
+    </footer>
   </div>
 </template>
 
@@ -67,11 +72,13 @@ import UserLink from './UserLink.vue';
 import { ref } from 'vue';
 import axios from 'axios';
 import Skeleton from './Skeleton.vue';
+import { useDark } from '@vueuse/core';
 
 export default {
   components: { ProfilePicture, Skeleton, Link, UserLink },
   data() {
     return {
+      isDark: useDark(),
       loading: ref(false),
       authUserData: ref(null),
       suggestions: [

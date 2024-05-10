@@ -6,7 +6,7 @@
 
     <Main>
       <section class="pt-3 pb-1">
-        <div v-if="loading" class="flex justify-center items-center h-[92.5vh]">
+        <div v-if="loading" class="flex justify-center items-center h-[90vh]">
           <Spinner />
         </div>
 
@@ -27,7 +27,7 @@
           >
             <img
               class="object-cover"
-              :class="isPatternMatch(i + 1) ? 'h-full' : 'aspect-[4/3]'"
+              :class="isPatternMatch(i + 1) ? 'h-full' : 'aspect-[4/3] w-full'"
               :src="$page.props.storagePath + 'images/posts/' + post.image"
               :alt="`Post by ${post.user.username}`"
             />

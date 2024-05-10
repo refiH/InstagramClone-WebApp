@@ -1,6 +1,6 @@
 <template>
   <Modal :modal-active="modalActive" @close-modal="toggleModal">
-    <div class="bg-white rounded-sm">
+    <div class="rounded-sm" :class="isDark ? 'bg-dark text-light' : 'bg-light'">
       <div v-if="!loading && postData" class="flex min-w-[75vw] max-w-[75vw] h-[90vh]">
         <div class="bg-black flex items-center justify-center flex-[4_4_0%]">
           <img
@@ -113,6 +113,7 @@
                 cols="0"
                 wrap="soft"
                 class="flex-1 px-2 py-4 outline-none resize-none"
+                :class="isDark ? 'bg-dark' : 'bg-light'"
                 v-model="form.content"
               ></textarea>
               <button type="submit" :disabled="form.processing" class="font-semibold text-primary">
@@ -145,6 +146,7 @@ import CommentIcon from 'vue-material-design-icons/CommentOutline.vue';
 import axios from 'axios';
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
+import { useDark } from '@vueuse/core';
 
 export default {
   emits: ['toggle-modal'],
@@ -164,6 +166,7 @@ export default {
   },
   setup() {
     return {
+      isDark: useDark(),
       postData: ref(null),
       commentsData: ref([]),
       loading: ref(false),

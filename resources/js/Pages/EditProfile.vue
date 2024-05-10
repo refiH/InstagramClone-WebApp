@@ -7,7 +7,7 @@
     <Main>
       <form @submit.prevent="saveImage" class="p-4">
         <!-- Profile Picture -->
-        <div class="flex justify-center gap-8 border-b px-4 pb-6">
+        <div class="flex justify-center gap-12 border-b px-4 pb-6">
           <ImageCropper v-if="image" :image="image" @cropper-ref="handleCropperRef" />
           <img v-else :src="'/images/default_profile.jpg'" class="w-[15rem] aspect-square" />
 

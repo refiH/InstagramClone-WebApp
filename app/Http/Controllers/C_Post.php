@@ -17,7 +17,7 @@ class C_Post extends Controller
       'image' => 'required|image|mimes:png,jpg,jpeg,webp|max:5120'
     ]);
 
-    $imageName = Auth::user()->username . '_' . 'post' . '_' . $request->image->extension();
+    $imageName = Auth::user()->username . '_' . 'post' . '_' . time() . '.' . $request->image->extension();
     $path = storage_path("app/public/images/posts");
 
     $request->file('image')->move($path, $imageName);
@@ -26,7 +26,7 @@ class C_Post extends Controller
     // resize image
     if (filesize($image) > 1024 * 1024) {
       GlideImage::create($image)
-        ->modify(['q' => 70])
+        ->modify(['q' => 70,])
         ->save($image);
     }
 

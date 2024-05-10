@@ -12,6 +12,10 @@ button:disabled {
   pointer-events: none;
 }
 
+html.dark * {
+  border-color: rgba(255, 255, 255, .1);
+}
+
 @layer base {
 
   /* NUNITO SANS */

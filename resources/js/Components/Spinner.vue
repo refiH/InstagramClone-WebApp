@@ -1,7 +1,7 @@
 <template>
   <span
     class="loader"
-    :class="`border-[3px] border-primary`"
+    :class="`border-[3px] !border-primary`"
     :style="`height: ${size}px; width: ${size}px;`"
   ></span>
 </template>
@@ -19,7 +19,7 @@ export default {
 
 <style>
 .loader {
-  border-bottom-color: transparent;
+  border-bottom-color: transparent !important;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;

@@ -77,7 +77,7 @@
               @click="toggleModal(post.id)"
             >
               <img
-                class="object-cover aspect-[inherit]"
+                class="object-cover aspect-[inherit] w-full"
                 :src="$page.props.storagePath + 'images/posts/' + post.image"
                 :alt="`Post by ${user.username}`"
               />
