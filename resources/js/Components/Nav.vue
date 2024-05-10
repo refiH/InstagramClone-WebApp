@@ -41,24 +41,6 @@
         <SunIcon v-else :size="30" />
       </button>
 
-      <dropdown-menu>
-        <template #trigger>
-          <button>Open Dropdown</button>
-        </template>
-
-        <template #header> Dropdown Header </template>
-
-        <template #body>
-          <ul>
-            <li v-for="i in 6" :key="i">
-              <a href="">Item {{ i }}</a>
-            </li>
-          </ul>
-        </template>
-
-        <template #footer> Dropdown Footer </template>
-      </dropdown-menu>
-
       <Link :href="route('profile', { username: $page.props.auth.user.username })">
         <button class="rounded p-2 hover:scale-110 transition">
           <AccountIcon :size="30" />
